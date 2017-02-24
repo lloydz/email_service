@@ -153,9 +153,10 @@ input[type=text]:focus, input[type=password]:focus {
 	point-events: none;
 }
 
-.form-footer {
+.form-div {
 	bottom: 0px;
-    height: 76px;
+    height: 75px;
+	line-height: 75px;
     z-index: 801;
     text-align: center;
     background: #fff;
@@ -165,14 +166,25 @@ input[type=text]:focus, input[type=password]:focus {
     cursor: default;
 }
 
-
-/**
 fieldset {
-	border: 1px solid #BCBCBC;
-	padding: 15px;
-	margin-top: 20px;
+	text-align: left;
+    border: 1px solid rgba(140, 69, 37, 0.37);
+    padding: 15px;
+    margin: 10px 0;
 }
 
+.radio-list .radio {
+	float: left;
+	margin-left: 30px;
+	margin-top: 10px;
+    min-width: 120px;
+}
+
+.radio-list input[type=radio] {
+	vertical-align: -2px;
+}
+
+/**
 input {
 	outline: none
 }

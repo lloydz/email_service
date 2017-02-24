@@ -50,6 +50,13 @@ return [
             'rules' => [
             ],
         ],
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=localhost;dbname=email_service',
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8'
+        ],
     ],
     'params' => $params,
 ];

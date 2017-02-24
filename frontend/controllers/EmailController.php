@@ -5,6 +5,8 @@ use Yii;
 use yii\web\Controller;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
+use frontend\models\EmailTask;
+use frontend\tools\ExcelTool;
 
 class EmailController extends Controller
 {
@@ -41,20 +43,6 @@ class EmailController extends Controller
         return $this->render('index');
     }
     
-    public function actionUploadAttachments() {
-        echo date('Y-m-d H:i:s') . '<br>';
-        $attachments = UploadedFile::getInstancesByName('attachments');
-        var_dump($attachments);die;
-        foreach ($attachments as $attachment) {
-            if(!$attachment->saveAs()) {
-                echo '附件上传失败';
-            }
-        }
-        echo '附件上传成功';
-        echo '<br>' . date('Y-m-d H:i:s');
-        // var_dump($attachments);
-    }
-    
     /**
      * 邮件任务的相关文件上传
      * 
@@ -76,8 +64,24 @@ class EmailController extends Controller
             
             // 未获取到所上传的文件
             $file = UploadedFile::getInstanceByName('file');
+            // var_dump($file);die;
             if(empty($file)) {
                 return $this->ajaxFail('上传失败');
+            }
+            
+            $fileType = '';
+            if(function_exists('finfo_open')) {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            }
+            if(isset($finfo)) {
+                $fileType = finfo_file($finfo, $file->tempName);
+            }
+            
+            $excel = new ExcelTool(ExcelTool::READ, $file->tempName, $fileType);
+            $excelTitle = $excel->readTitle($file->tempName);
+            $titles = [];
+            foreach ($excelTitle as $key => $title) {
+                $titles[$this->_getABC($key)] = $title;
             }
             
             // 保存文件
@@ -89,7 +93,8 @@ class EmailController extends Controller
             
             return $this->ajaxSuccess('上传成功', [
                 'task_dir' => $taskDir,
-                'file_name' => $file->name
+                'file_name' => $file->name,
+                'titles' => $titles
             ]);
         // 所传文件为附件
         } else {
@@ -117,6 +122,15 @@ class EmailController extends Controller
             
             return $this->ajaxSuccess('上传成功', null);
         }
+    }
+    
+    public function actionNewTask() {
+        $taskData = \Yii::$app->request->post('task_data');
+        $transportData = \Yii::$app->request->post('transport_data');
+        $templateData = \Yii::$app->request->post('template_data');
+        $result = (new EmailTask())->newTask($taskData, $transportData, $templateData);
+        
+        return $this->ajaxReturn($result['status'], $result['msg'], $result['data']);
     }
     
     /**
@@ -152,5 +166,28 @@ class EmailController extends Controller
      */
     public function ajaxFail($msg, $data = '') {
         return $this->ajaxReturn(0, $msg, $data);
+    }
+    
+    /**
+     * 根据序号转换成Excel头
+     * @param $index    数字序号
+     * @return string   Excel头
+     */
+    private function _getABC($index){
+        $ABC[0] = chr(90);
+        for($i = 65; $i< 90; $i++){
+            $ABC[$i-64] = chr($i);
+        }
+    
+        $str = '';
+        while($index > 0){
+            $remainder = $index % 26;
+            $str = $ABC[$remainder] . $str;
+            if (0 == $index%26)
+                --$index;
+                $index = intval($index/26);
+        }
+    
+        return $str;
     }
 }

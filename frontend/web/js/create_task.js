@@ -57,4 +57,34 @@ $(document).ready(function() {
             $('#attachment-upload-progress .progress-percentage').html(progress + '%');
         }
     });
+	
+	$('#new-task').click(function() {
+		$.ajax({
+			 url : '/email/new-task',
+			type : 'post',
+			data : {
+				task_data : {
+					task_name: $('#task-name').val(),
+					file_path: $('#excel-upload').attr('task_dir'),
+					excel_file: $('#excel-upload').attr('file_name')
+				}, 
+				transport_data : {
+					host: $('#smtp').val(),
+					username: $('#username').val(),
+					password: $('#password').val(),
+					port: $('#port').val(),
+					encryption: 'tls'
+				}, 
+				template_data : {
+					subject: $('#subject').val(),
+					body: '<p>邮件正文<p><p>邮件正文<p><p>邮件正文<p><p>邮件正文<p><p>邮件正文<p>',
+					attachment: $('#attachment').is(':checked') ? 1 : 0,
+					attachment_excel_col: $('#attachment-excel-col').val()
+				}
+			},
+			success: function(res) {
+				console.log(res);
+			}
+		});
+	});
 });
