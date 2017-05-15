@@ -9,11 +9,11 @@ use Yii;
  *
  * @property integer $id
  * @property integer $task_id
- * @property string $host
- * @property string $username
- * @property string $password
+ * @property string $smtp
  * @property integer $port
  * @property string $encryption
+ * @property string $sender_email
+ * @property string $sender_email_password
  */
 class TaskTransport extends \yii\db\ActiveRecord
 {
@@ -31,9 +31,9 @@ class TaskTransport extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['task_id'], 'required'],
+            [['task_id', 'smtp'], 'required'],
             [['task_id', 'port'], 'integer'],
-            [['host', 'username', 'password', 'encryption'], 'string', 'max' => 255],
+            [['smtp', 'encryption', 'sender_email', 'sender_email_password'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,11 +45,11 @@ class TaskTransport extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'task_id' => 'Task ID',
-            'host' => 'Host',
-            'username' => 'Username',
-            'password' => 'Password',
+            'smtp' => 'Smtp',
             'port' => 'Port',
             'encryption' => 'Encryption',
+            'sender_email' => 'Sender Email',
+            'sender_email_password' => 'Sender Email Password',
         ];
     }
 }

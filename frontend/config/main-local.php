@@ -1,10 +1,18 @@
 <?php
 
 $config = [
+    'defaultRoute' => 'email-task',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'saUjdZxuQlIAapFh9XQV-g9hBnk84-fq',
+        ],
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=localhost;dbname=integle_ets',
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8'
         ],
     ],
 ];

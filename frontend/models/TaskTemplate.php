@@ -9,10 +9,11 @@ use Yii;
  *
  * @property integer $id
  * @property integer $task_id
+ * @property integer $to_excel_col
  * @property string $subject
  * @property string $body
- * @property integer $attachment
- * @property string $attachment_excel_col
+ * @property integer $attachment_type
+ * @property integer $attachment_excel_col
  */
 class TaskTemplate extends \yii\db\ActiveRecord
 {
@@ -30,10 +31,10 @@ class TaskTemplate extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['task_id', 'attachment'], 'integer'],
+            [['task_id'], 'required'],
+            [['task_id', 'to_excel_col', 'attachment_type', 'attachment_excel_col'], 'integer'],
             [['body'], 'string'],
             [['subject'], 'string', 'max' => 255],
-            [['attachment_excel_col'], 'string', 'max' => 16],
         ];
     }
 
@@ -45,9 +46,10 @@ class TaskTemplate extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'task_id' => 'Task ID',
+            'to_excel_col' => 'To Excel Col',
             'subject' => 'Subject',
             'body' => 'Body',
-            'attachment' => 'Attachment',
+            'attachment_type' => 'Attachment Type',
             'attachment_excel_col' => 'Attachment Excel Col',
         ];
     }

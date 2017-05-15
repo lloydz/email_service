@@ -36,9 +36,9 @@ return [
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=email_service',
-            'username' => 'root',
-            'password' => '',
+            'dsn' => 'mysql:host=ineln.db.integle.com;dbname=integle_ets',
+            'username' => 'integle_w',
+            'password' => 'integle@2013',
             'charset' => 'utf8'
         ],
     ],

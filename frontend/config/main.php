@@ -11,9 +11,11 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'defaultRoute' => 'email-task',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'cookieValidationKey' => 'saUjdZxuQlIAapFh9XQV-g9hBnk84-fq',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -52,9 +54,9 @@ return [
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=email_service',
-            'username' => 'root',
-            'password' => '',
+            'dsn' => 'mysql:host=ineln.db.integle.com;dbname=integle_ets',
+            'username' => 'integle_w',
+            'password' => 'integle@2013',
             'charset' => 'utf8'
         ],
     ],
